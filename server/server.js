@@ -48,14 +48,14 @@ io.on('connection',(socket)=>{
 
 socket.on('createLocationMessage',(coords)=>{
   var user=users.getUser(socket.id);
-  io.to(user.room).emit('newLocationMessage',generateMessage(user.name,coords.latitude,coords.longitude));
+  io.to(user.room).emit('newLocationMessage',generateLocationMessage(user.name,coords.latitude,coords.longitude));
 });
   socket.on('disconnect',()=>{
     // console.log('User was disconnected');
     var user=users.removeUser(socket.id);
     if(user){
       io.to(user.room).emit('updateUserList',users.getUserList(user.room));
-      io.to(user.room).emit('newMessage', generateMessage('Admin',user.name+" has left the room"));
+      io.to(user.room).emit('newMessage', generateLocationMessage('Admin',user.name+" has left the room"));
     }
   });
 });
